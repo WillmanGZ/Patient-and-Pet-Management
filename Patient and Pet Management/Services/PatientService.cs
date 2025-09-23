@@ -4,6 +4,7 @@ namespace Patient_and_Pet_Management.Services;
 
 public static class PatientService
 {
+    // Show in console all patients in a list
     public static void ListPatients(List<Patient> patients)
     {
         if (patients.Count == 0)
@@ -18,14 +19,25 @@ public static class PatientService
         }
     }
 
+    // Register a patient and return a new list with the new patient
     public static List<Patient> RegisterPatient(List<Patient> patients, Patient newPatient)
     {
         patients.Add(newPatient);
+        Console.WriteLine("Patient added successfully");
         return patients;
     }
 
-    public static Patient? SearchPatient(List<Patient> patients, string name)
+    // Search a patient and return it if it is in the list
+    public static void SearchPatient(List<Patient> patients, string name)
     {
-        return patients.Find((patient) => patient.Name == name);
+        var patient = patients.Find((patient) => patient.Name.Trim().ToLower() == name.Trim().ToLower());
+
+        if (patient is null)
+        {
+            Console.WriteLine("We can't find a user with that name");
+            return;
+        }
+
+        Console.WriteLine($"Name: {patient.Name}, Age: {patient.Age}, Symptoms: {patient.Symptom}");
     }
 }
