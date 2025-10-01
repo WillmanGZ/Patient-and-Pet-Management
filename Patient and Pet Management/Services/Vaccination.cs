@@ -15,6 +15,7 @@ public class Vaccination : VetService
 
     public override void Attend()
     {
-        Console.WriteLine($"Applying vaccine '{this._vaccineName}' to {this._pet.GetName()} (Id: {this._pet.Id}).");
+        Console.WriteLine($"Applying vaccine '{this._vaccineName}' to {this._pet.GetName()}");
+        this._pet.EmitSound();
     }
 }

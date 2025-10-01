@@ -13,7 +13,7 @@ public class GeneralConsult : VetService
 
     public override void Attend()
     {
-        Console.WriteLine($"Attending general consult for {this._pet.GetName()} (Id: {this._pet.Id}).");
+        Console.WriteLine($"Attending general consult for {this._pet.GetName()}");
         this._pet.EmitSound();
     }
 }

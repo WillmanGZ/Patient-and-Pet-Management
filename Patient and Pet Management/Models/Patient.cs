@@ -1,8 +1,6 @@
-using Patient_and_Pet_Management.Interfaces;
-
 namespace Patient_and_Pet_Management.Models;
 
-public class Patient : IRegistrable
+public class Patient
 {
     private Guid _id;
     private string _name;
@@ -110,10 +108,5 @@ public class Patient : IRegistrable
             Console.Write("  - ");
             p.ShowInfo();
         }
-    }
-
-    public void Register()
-    {
-        Console.WriteLine($"Patient {this._name} registered in the system.");
     }
 }
