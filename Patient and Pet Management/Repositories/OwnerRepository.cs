@@ -4,9 +4,12 @@ using Patient_and_Pet_Management.Models;
 
 namespace Patient_and_Pet_Management.Repositories;
 
-public class OwnerRepository: ICreate<Owner>, IGet<Owner>, IUpdate<Owner>, IRemove
+public class OwnerRepository : ICreate<Owner>, IGet<Owner>, IUpdate<Owner>, IRemove
 {
-    public OwnerRepository(){}
+    public OwnerRepository()
+    {
+    }
+
     public void Create(Owner owner)
     {
         Database.Owners.Add(owner);
@@ -36,5 +39,32 @@ public class OwnerRepository: ICreate<Owner>, IGet<Owner>, IUpdate<Owner>, IRemo
     public void Remove(string id)
     {
         Database.Owners = Database.Owners.Where((owner => owner.Id.ToString() != id)).ToList();
+    }
+
+    public void AddPet(Pet pet)
+    {
+        Database.Owners =
+            Database.Owners.Select((owner) =>
+            {
+                if (owner.Name.Equals(pet.Owner.Name) && !owner.Pets.Select((pet) => pet.Name).Contains(pet.Name))
+                {
+                    owner.AddPet(pet);
+                }
+
+                return owner;
+            }).ToList();
+    }
+
+    public void DeletePet(Pet pet)
+    {
+        Database.Owners = Database.Owners.Select((owner) =>
+        {
+            if (owner.Pets.Contains(pet))
+            {
+                owner.DeletePet(pet.Id.ToString());
+            }
+
+            return owner;
+        }).ToList();
     }
 }

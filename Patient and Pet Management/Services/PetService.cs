@@ -7,7 +7,7 @@ public static class PetService
 {
     private static PetRepository _petRepository = new PetRepository();
 
-    static void CreatePet(string name, byte age, string species, Owner owner)
+    public static void CreatePet(string name, byte age, string species, Owner owner)
     {
         if (string.IsNullOrEmpty(name) || age <= 0 || age > 100 || string.IsNullOrEmpty(species))
         {
@@ -19,7 +19,13 @@ public static class PetService
         {
             Pet newPet = new Pet(name, age, species, owner);
             _petRepository.Create(newPet);
-            Console.WriteLine("User created successfully");
+
+            if (owner != null)
+            {
+                OwnerService.AddPet(newPet);
+            }
+
+            Console.WriteLine("Pet created successfully");
         }
         catch (Exception err)
         {
@@ -27,7 +33,7 @@ public static class PetService
         }
     }
 
-    static List<Pet> GetPets()
+    public static List<Pet> GetPets()
     {
         try
         {
@@ -40,7 +46,7 @@ public static class PetService
         }
     }
 
-    static Pet? GetPetById(string id)
+    public static Pet? GetPetById(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -59,7 +65,7 @@ public static class PetService
         }
     }
 
-    static Pet? GetPetByName(string name)
+    public static Pet? GetPetByName(string name)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -78,7 +84,7 @@ public static class PetService
         }
     }
 
-    static void UpdatePet(string id, string newName, byte newAge, string newSpecies, Owner owner)
+    public static void UpdatePet(string id, string newName, byte newAge, string newSpecies, Owner owner)
     {
         if (string.IsNullOrEmpty(newName) || newAge <= 0 || newAge > 100 || string.IsNullOrEmpty(newSpecies))
         {
@@ -98,7 +104,7 @@ public static class PetService
         }
     }
 
-    static void RemovePet(string id)
+    public static void RemovePet(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -108,7 +114,15 @@ public static class PetService
 
         try
         {
+            var pet = _petRepository.GetById(id);
             _petRepository.Remove(id);
+
+            if (pet.Owner != null)
+            {
+                OwnerService.DeletePet(pet);
+            }
+
+            Console.WriteLine("Pet removed successfully");
         }
         catch (Exception err)
         {

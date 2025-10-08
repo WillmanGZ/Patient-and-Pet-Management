@@ -7,7 +7,7 @@ public static class OwnerService
 {
     private static OwnerRepository _ownerRepository = new OwnerRepository();
 
-    static void CreateOwner(string name, byte age, string phone, string address)
+    public static void CreateOwner(string name, byte age, string phone, string address)
     {
         if (string.IsNullOrEmpty(name) || age <= 0 || age > 100 || string.IsNullOrEmpty(phone) ||
             string.IsNullOrEmpty(address))
@@ -20,7 +20,7 @@ public static class OwnerService
         {
             Owner newOwner = new Owner(name, age, phone, address);
             _ownerRepository.Create(newOwner);
-            Console.WriteLine("User created successfully");
+            Console.WriteLine("Owner created successfully");
         }
         catch (Exception err)
         {
@@ -28,7 +28,7 @@ public static class OwnerService
         }
     }
 
-    static List<Owner> GetOwners()
+    public static List<Owner> GetOwners()
     {
         try
         {
@@ -41,7 +41,7 @@ public static class OwnerService
         }
     }
 
-    static Owner? GetOwnerById(string id)
+    public static Owner? GetOwnerById(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -60,7 +60,7 @@ public static class OwnerService
         }
     }
 
-    static Owner? GetOwnerByName(string name)
+    public static Owner? GetOwnerByName(string name)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -79,7 +79,7 @@ public static class OwnerService
         }
     }
 
-    static void UpdateOwner(string id, string newName, byte newAge, string newPhone, string newAddress)
+    public static void UpdateOwner(string id, string newName, byte newAge, string newPhone, string newAddress)
     {
         if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(newName) || newAge <= 0 || newAge > 100 ||
             string.IsNullOrEmpty(newPhone) ||
@@ -93,7 +93,7 @@ public static class OwnerService
         {
             Owner updatedOwner = new Owner(newName, newAge, newPhone, newAddress);
             _ownerRepository.Update(id, updatedOwner);
-            Console.WriteLine("User updated successfully");
+            Console.WriteLine("Owner updated successfully");
         }
         catch (Exception err)
         {
@@ -101,7 +101,7 @@ public static class OwnerService
         }
     }
 
-    static void RemoveOwner(string id)
+    public static void RemoveOwner(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
@@ -112,11 +112,37 @@ public static class OwnerService
         try
         {
             _ownerRepository.Remove(id);
-            Console.WriteLine("");
+            Console.WriteLine("Owner removed successfully");
         }
         catch (Exception err)
         {
             Console.WriteLine("Error deleting owner", err);
+        }
+    }
+
+    public static void AddPet(Pet pet)
+    {
+        try
+        {
+            _ownerRepository.AddPet(pet);
+            Console.WriteLine("Pet was added to his owner successfully");
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine("Error adding pet to owner", err);
+        }
+    }
+
+    public static void DeletePet(Pet pet)
+    {
+        try
+        {
+            _ownerRepository.DeletePet(pet);
+            Console.WriteLine("Pet was deleted to his owner successfully");
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine("Error deleting pet to owner", err);
         }
     }
 }

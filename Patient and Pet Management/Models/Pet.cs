@@ -8,6 +8,6 @@ public class Pet(string name, byte age, string species, Owner owner) : Animal(na
     public override void ShowInfo()
     {
         Console.WriteLine(
-            $"Id: {this.Id} | Name: {this.Name} | Age: {this.Age} | Species: {this.Species} | Owner: {this.Owner.Name}");
+            $"Id: {Id} | Name: {Name} | Age: {Age} | Species: {Species} | Owner: {(Owner == null ? "Doesn't have owner" : Owner.Name)}");
     }
 }

@@ -8,7 +8,7 @@ public class Owner(string name, byte age, string phone, string address)
     public override void ShowInfo()
     {
         Console.WriteLine(
-            $"Id: {this.Id} | Name: {this.Name} | Age: {this.Age} | Address: {this.Address} | Phone: {this.Phone} | Pets {string.Join('-', Pets)}");
+            $"Id: {this.Id} | Name: {this.Name} | Age: {this.Age} | Address: {this.Address} | Phone: {this.Phone} | Pets {string.Join('-', Pets.Select((pet => pet.Name)))}");
     }
 
     public void ShowPets()
@@ -16,7 +16,7 @@ public class Owner(string name, byte age, string phone, string address)
         Console.WriteLine($"Pets of {this.Name}:");
         if (this.Pets.Count == 0)
         {
-            Console.WriteLine("The user doesn't have any pet ");
+            Console.WriteLine("The owner doesn't have any pet ");
             return;
         }
 
@@ -25,5 +25,15 @@ public class Owner(string name, byte age, string phone, string address)
             Console.Write(" - ");
             pet.ShowInfo();
         }
+    }
+
+    public void AddPet(Pet pet)
+    {
+        this.Pets.Add(pet);
+    }
+
+    public void DeletePet(string id)
+    {
+        this.Pets = this.Pets.Where((pet) => !pet.Id.Equals(id)).ToList();
     }
 }
