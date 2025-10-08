@@ -34,6 +34,6 @@ public class Owner(string name, byte age, string phone, string address)
 
     public void DeletePet(string id)
     {
-        this.Pets = this.Pets.Where((pet) => !pet.Id.Equals(id)).ToList();
+        this.Pets = this.Pets.Where((pet) => !pet.Id.ToString().Equals(id)).ToList();
     }
 }

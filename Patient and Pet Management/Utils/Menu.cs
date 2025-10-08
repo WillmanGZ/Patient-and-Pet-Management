@@ -7,37 +7,16 @@ public static class Menu
 {
     public static void ShowMenu()
     {
-        // Show welcome message
-        Console.WriteLine("""
-
-                          Welcome to the new vet system
-
-                          Available options:
-                          1. List all owners
-                          2. List all pets
-                          3. List all veterinaries
-                          4. Register new owner
-                          5. Register new pet
-                          6. Register new veterinary
-                          7. Search owner by name
-                          8. Search pet by name
-                          9. Search veterinary by name
-                          10. Delete owner
-                          11. Delete pet
-                          12. Delete veterinary
-                          13. Exit
-                          """);
-
 // Ask for the option number
-        List<int> availibleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+        List<int> availibleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
         int option = 0;
 
 // Main loop
-        while (option != 10)
+        while (option != 11)
         {
             Console.WriteLine("""
 
-                              Choose again the option
+                              Choose an option
 
                               Available options:
                               1. List all owners
@@ -46,13 +25,10 @@ public static class Menu
                               4. Register new owner
                               5. Register new pet
                               6. Register new veterinary
-                              7. Search owner by name
-                              8. Search pet by name
-                              9. Search veterinary by name
-                              10. Delete owner
-                              11. Delete pet
-                              12. Delete veterinary
-                              13. Exit
+                              8. Delete owner
+                              9. Delete pet
+                              10. Delete veterinary
+                              11. Exit
                               """);
 
             //Ask for an option
@@ -78,6 +54,7 @@ public static class Menu
                 }
             }
 
+            Console.WriteLine("");
             // Menu options
             switch (option)
             {
@@ -88,9 +65,14 @@ public static class Menu
                 case 5: RegisterPet(); break;
                 case 6: RegisterVeterinary(); break;
                 // case 7: AttendPet(); break;
-                // case 8: DeletePatient(); break;
-                // case 9: DeletePet(); break;
+                case 8: DeleteOwner(); break;
+                case 9: DeletePet(); break;
+                case 10: DeleteVeterinary(); break;
             }
+
+            Console.WriteLine("");
+            Console.Write("Press any key to continue...");
+            var key = Console.ReadLine();
         }
 
         Console.WriteLine("We hope see you soon!");
@@ -255,16 +237,6 @@ public static class Menu
         {
             PetService.CreatePet(petName, petAge, species, owner);
             var newPet = new Pet(petName, petAge, species, owner);
-
-            if (owner != null)
-            {
-                OwnerService.AddPet(newPet);
-                Console.WriteLine("Pet associate to: " + owner.Name);
-            }
-            else
-            {
-                Console.WriteLine("Pet registered without owner");
-            }
         }
         catch (Exception ex)
         {
@@ -329,76 +301,6 @@ public static class Menu
         }
     }
 
-//     static void SearchPatientByName()
-//     {
-//         Console.WriteLine("-- Search patient by name --");
-//
-//         string searchPatientName;
-//         while (true)
-//         {
-//             Console.Write("Enter patient name: ");
-//             searchPatientName = Console.ReadLine() ?? string.Empty;
-//             if (!string.IsNullOrWhiteSpace(searchPatientName))
-//                 break;
-//             Console.WriteLine("Name cannot be empty. Please try again.");
-//         }
-//
-//         var foundPatient = Storage.FindPatientByName(searchPatientName);
-//
-//         if (foundPatient == null)
-//         {
-//             Console.WriteLine($"Patient '{searchPatientName}' not found.");
-//             return;
-//         }
-//
-//         var patientPets = foundPatient.GetPets();
-//         string patientPetNames =
-//             patientPets.Count == 0 ? "(none)" : string.Join(", ", patientPets.Select(p => p.GetName()));
-//
-//         Console.WriteLine($"""
-//                            Patient:
-//                            Name: {foundPatient.GetName()}
-//                            Age: {foundPatient.GetAge()}
-//                            Phone: {foundPatient.GetPhone()}
-//                            Address: {foundPatient.GetAddress()}
-//                            Pets: {patientPetNames}
-//                            """);
-//     }
-//
-//     static void SearchPetByName()
-//     {
-//         Console.WriteLine("-- Search pet by name --");
-//
-//         string searchPetName;
-//         while (true)
-//         {
-//             Console.Write("Enter pet name: ");
-//             searchPetName = Console.ReadLine() ?? string.Empty;
-//             if (!string.IsNullOrWhiteSpace(searchPetName))
-//                 break;
-//             Console.WriteLine("Name cannot be empty. Please try again.");
-//         }
-//
-//         var foundPet = Storage.FindPetByName(searchPetName);
-//
-//         if (foundPet == null)
-//         {
-//             Console.WriteLine($"Pet '{searchPetName}' not found.");
-//             return;
-//         }
-//
-//         string ownerDisplay = foundPet.GetOwner() != null ? foundPet.GetOwner()!.GetName() : "No owner";
-//
-//         Console.WriteLine($"""
-//                            Pet:
-//                            Name: {foundPet.GetName()}
-//                            Age: {foundPet.GetAge()}
-//                            Species: {foundPet.GetSpecies()}
-//                            Breed: {foundPet.GetBreed()}
-//                            Owner: {ownerDisplay}
-//                            """);
-//     }
-//
 //     static void AttendPet()
 //     {
 //         Console.WriteLine("-- Attend Pet --");
@@ -453,72 +355,78 @@ public static class Menu
 //     }
 //
 //
-//     static void DeletePatient()
-//     {
-//         Console.WriteLine("-- Delete patient --");
-//
-//         string patientNameToDelete;
-//         while (true)
-//         {
-//             Console.Write("Enter patient name to delete: ");
-//             patientNameToDelete = Console.ReadLine() ?? string.Empty;
-//             if (!string.IsNullOrWhiteSpace(patientNameToDelete))
-//                 break;
-//             Console.WriteLine("Name cannot be empty. Please try again.");
-//         }
-//
-//         var patientMatch = Storage.FindPatientByName(patientNameToDelete);
-//
-//         if (patientMatch == null)
-//         {
-//             Console.WriteLine($"Patient '{patientNameToDelete}' not found.");
-//             return;
-//         }
-//
-//         Storage.RemovePatient(patientMatch.GetName());
-//
-//         Console.WriteLine($"""
-//                            Patient deleted:
-//                            Name: {patientMatch.GetName()}
-//                            Age: {patientMatch.GetAge()}
-//                            Phone: {patientMatch.GetPhone()}
-//                            Address: {patientMatch.GetAddress()}
-//                            """);
-//     }
-//
-//     static void DeletePet()
-//     {
-//         Console.WriteLine("-- Delete pet --");
-//
-//         string petNameToDelete;
-//         while (true)
-//         {
-//             Console.Write("Enter pet name to delete: ");
-//             petNameToDelete = Console.ReadLine() ?? string.Empty;
-//             if (!string.IsNullOrWhiteSpace(petNameToDelete))
-//                 break;
-//             Console.WriteLine("Name cannot be empty. Please try again.");
-//         }
-//
-//         var petMatch = Storage.FindPetByName(petNameToDelete);
-//
-//         if (petMatch == null)
-//         {
-//             Console.WriteLine($"Pet '{petNameToDelete}' not found.");
-//             return;
-//         }
-//
-//         Storage.RemovePet(petMatch.GetName());
-//
-//         string petOwnerDisplay = petMatch.GetOwner() != null ? petMatch.GetOwner()!.GetName() : "No owner";
-//
-//         Console.WriteLine($"""
-//                            Pet deleted:
-//                            Name: {petMatch.GetName()}
-//                            Age: {petMatch.GetAge()}
-//                            Species: {petMatch.GetSpecies()}
-//                            Breed: {petMatch.GetBreed()}
-//                            Owner: {petOwnerDisplay}
-//                            """);
-//     }
+    static void DeleteOwner()
+    {
+        Console.WriteLine("-- Delete owner --");
+
+        string ownerNameToDelete;
+        while (true)
+        {
+            Console.Write("Enter owner name to delete: ");
+            ownerNameToDelete = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(ownerNameToDelete))
+                break;
+            Console.WriteLine("Name cannot be empty. Please try again.");
+        }
+
+        var ownerMatch = OwnerService.GetOwnerByName(ownerNameToDelete);
+
+        if (ownerMatch == null)
+        {
+            Console.WriteLine($"Owner '{ownerNameToDelete}' not found.");
+            return;
+        }
+
+        OwnerService.RemoveOwner(ownerMatch.Id.ToString());
+    }
+
+    static void DeletePet()
+    {
+        Console.WriteLine("-- Delete pet --");
+
+        string petNameToDelete;
+        while (true)
+        {
+            Console.Write("Enter pet name to delete: ");
+            petNameToDelete = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(petNameToDelete))
+                break;
+            Console.WriteLine("Name cannot be empty. Please try again.");
+        }
+
+        var petMatch = PetService.GetPetByName(petNameToDelete);
+
+        if (petMatch == null)
+        {
+            Console.WriteLine($"Pet '{petNameToDelete}' not found.");
+            return;
+        }
+
+        PetService.RemovePet(petMatch.Id.ToString());
+    }
+
+    static void DeleteVeterinary()
+    {
+        Console.WriteLine("-- Delete veterinary --");
+
+        string veterinaryNameToDelete;
+        while (true)
+        {
+            Console.Write("Enter veterinary name to delete: ");
+            veterinaryNameToDelete = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(veterinaryNameToDelete))
+                break;
+            Console.WriteLine("Name cannot be empty. Please try again.");
+        }
+
+        var veterinaryMatch = VeterinaryService.GetVeterinaryByName(veterinaryNameToDelete);
+
+        if (veterinaryMatch == null)
+        {
+            Console.WriteLine($"Veterinary '{veterinaryNameToDelete}' not found.");
+            return;
+        }
+
+        VeterinaryService.RemoveVeterinary(veterinaryMatch.Id.ToString());
+    }
 }

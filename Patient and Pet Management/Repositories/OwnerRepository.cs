@@ -59,7 +59,7 @@ public class OwnerRepository : ICreate<Owner>, IGet<Owner>, IUpdate<Owner>, IRem
     {
         Database.Owners = Database.Owners.Select((owner) =>
         {
-            if (owner.Pets.Contains(pet))
+            if (owner.Pets.Any((p => p.Id.Equals(pet.Id))))
             {
                 owner.DeletePet(pet.Id.ToString());
             }

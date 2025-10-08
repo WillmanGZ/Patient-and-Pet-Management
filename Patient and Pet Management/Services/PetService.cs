@@ -7,6 +7,7 @@ public static class PetService
 {
     private static PetRepository _petRepository = new PetRepository();
 
+
     public static void CreatePet(string name, byte age, string species, Owner owner)
     {
         if (string.IsNullOrEmpty(name) || age <= 0 || age > 100 || string.IsNullOrEmpty(species))
@@ -23,6 +24,10 @@ public static class PetService
             if (owner != null)
             {
                 OwnerService.AddPet(newPet);
+            }
+            else
+            {
+                Console.WriteLine("Pet registered without owner");
             }
 
             Console.WriteLine("Pet created successfully");
