@@ -36,4 +36,30 @@ public class PetRepository : ICreate<Pet>, IGet<Pet>, IUpdate<Pet>, IRemove
     {
         Database.Pets = Database.Pets.Where((pet => pet.Id.ToString() != id)).ToList();
     }
+
+    public void AddOwner(Owner owner, Pet pet)
+    {
+        Database.Pets = Database.Pets.Select((p =>
+        {
+            if (pet.Id.Equals(p.Id))
+            {
+                pet.Owner = owner;
+            }
+
+            return pet;
+        })).ToList();
+    }
+
+    public void RemoveOwner(Pet pet)
+    {
+        Database.Pets = Database.Pets.Select((p) =>
+        {
+            if (pet.Id.Equals(p.Id))
+            {
+                pet.Owner = null;
+            }
+
+            return pet;
+        }).ToList();
+    }
 }

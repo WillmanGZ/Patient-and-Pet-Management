@@ -2,7 +2,7 @@ namespace Patient_and_Pet_Management.Models;
 
 public class Pet(string name, byte age, string species, Owner owner) : Animal(name, age, species)
 {
-    public Owner Owner { get; set; } = owner;
+    public Owner? Owner { get; set; } = owner;
 
 
     public override void ShowInfo()

@@ -113,6 +113,9 @@ public static class OwnerService
         {
             _ownerRepository.Remove(id);
             Console.WriteLine("Owner removed successfully");
+            
+            
+            PetService.remo
         }
         catch (Exception err)
         {
