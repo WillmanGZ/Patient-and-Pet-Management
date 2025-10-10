@@ -23,7 +23,7 @@ public class VeterinaryRepository : ICreate<Veterinary>, IGet<Veterinary>, IUpda
 
     public Veterinary? GetByName(string name)
     {
-        return Database.Veterinaries.Find((veterinary => veterinary.Name == name));
+        return Database.Veterinaries.Find((veterinary => veterinary.Name.Equals(name, StringComparison.OrdinalIgnoreCase)));
     }
 
     public void Update(string id, Veterinary veterinary)

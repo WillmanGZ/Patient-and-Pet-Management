@@ -50,15 +50,16 @@ public class AppointmentService
                 a.Veterinary.Id == newAppointment.Veterinary.Id &&
                 (
                     (newAppointment.Date >= a.Date &&
-                     newAppointment.Date < a.Date + TimeSpan.FromHours(1)) || // empieza dentro de otra cita
+                     newAppointment.Date < a.Date + TimeSpan.FromHours(1)) ||
                     (a.Date >= newAppointment.Date &&
-                     a.Date < newAppointment.Date + TimeSpan.FromHours(1)) // otra cita empieza dentro de esta
+                     a.Date < newAppointment.Date + TimeSpan.FromHours(1))
                 )
             );
 
             if (hasConflict)
             {
                 Console.WriteLine("There is already an appointment at that time for this veterinarian");
+                return;
             }
 
             _appointmentRepository.Create(newAppointment);

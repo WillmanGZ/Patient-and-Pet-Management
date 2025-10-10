@@ -27,7 +27,7 @@ public class OwnerRepository : ICreate<Owner>, IGet<Owner>, IUpdate<Owner>, IRem
 
     public Owner? GetByName(string name)
     {
-        return Database.Owners.Find((owner => owner.Name == name));
+        return Database.Owners.Find((owner => owner.Name.Equals(name, StringComparison.OrdinalIgnoreCase)));
     }
 
     public void Update(string id, Owner owner)

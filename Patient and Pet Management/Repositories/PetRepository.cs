@@ -23,7 +23,7 @@ public class PetRepository : ICreate<Pet>, IGet<Pet>, IUpdate<Pet>, IRemove
 
     public Pet? GetByName(string name)
     {
-        return Database.Pets.Find((pet => pet.Name == name));
+        return Database.Pets.Find((pet => pet.Name.Equals(name, StringComparison.OrdinalIgnoreCase)));
     }
 
     public void Update(string id, Pet pet)

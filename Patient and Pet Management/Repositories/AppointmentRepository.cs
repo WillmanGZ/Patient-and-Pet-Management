@@ -27,7 +27,7 @@ public class AppointmentRepository : ICreate<Appointment>, IGet<Appointment>, IU
 
     public Appointment? GetByName(string subject)
     {
-        return Database.Appoitments.Find((appointment => appointment.Subject == subject));
+        return Database.Appoitments.Find((appointment => appointment.Subject.Equals(subject, StringComparison.OrdinalIgnoreCase)));
     }
 
     public void Update(string id, Appointment appointment)
