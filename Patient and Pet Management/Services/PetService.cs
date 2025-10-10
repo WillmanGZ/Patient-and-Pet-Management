@@ -134,29 +134,4 @@ public static class PetService
             Console.WriteLine("Error deleting pet", err);
         }
     }
-    
-    public static void AddOwner(Owner owner)
-    {
-        try
-        {
-            _petRepository.AddOwner(owner);
-            Console.WriteLine("Pet was added to his owner successfully");
-        }
-        catch (Exception err)
-        {
-            Console.WriteLine("Error adding pet to owner", err);
-        }
-    }
-
-    public static void DeleteOwner(Pet pet)
-    {
-        try
-        {
-            _petRepository.RemoveOwner(pet);
-        }
-        catch (Exception err)
-        {
-            Console.WriteLine("Error deleting owner to pet", err);
-        }
-    }
 }

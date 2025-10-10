@@ -8,11 +8,11 @@ public static class Menu
     public static void ShowMenu()
     {
 // Ask for the option number
-        List<int> availibleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        List<int> availibleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
         int option = 0;
 
 // Main loop
-        while (option != 11)
+        while (option != 13)
         {
             Console.WriteLine("""
 
@@ -22,13 +22,16 @@ public static class Menu
                               1. List all owners
                               2. List all pets
                               3. List all veterinaries
-                              4. Register new owner
-                              5. Register new pet
-                              6. Register new veterinary
-                              8. Delete owner
-                              9. Delete pet
-                              10. Delete veterinary
-                              11. Exit
+                              4. List all appointments
+                              5. Register new owner
+                              6. Register new pet
+                              7. Register new veterinary
+                              8. Register new appointment
+                              9. Delete owner
+                              10. Delete pet
+                              11. Delete veterinary
+                              12. Delete appointment
+                              13. Exit
                               """);
 
             //Ask for an option
@@ -61,13 +64,15 @@ public static class Menu
                 case 1: ListOwners(); break;
                 case 2: ListPets(); break;
                 case 3: ListVeterinaries(); break;
-                case 4: RegisterOwner(); break;
-                case 5: RegisterPet(); break;
-                case 6: RegisterVeterinary(); break;
-                // case 7: AttendPet(); break;
-                case 8: DeleteOwner(); break;
-                case 9: DeletePet(); break;
-                case 10: DeleteVeterinary(); break;
+                case 4: ListAppointments(); break;
+                case 5: RegisterOwner(); break;
+                case 6: RegisterPet(); break;
+                case 7: RegisterVeterinary(); break;
+                case 8: RegisterAppointment(); break;
+                case 9: DeleteOwner(); break;
+                case 10: DeletePet(); break;
+                case 11: DeleteVeterinary(); break;
+                case 12: break;
             }
 
             Console.WriteLine("");
@@ -127,6 +132,23 @@ public static class Menu
         foreach (var veterinary in veterinariesList)
         {
             veterinary.ShowInfo();
+        }
+    }
+
+    static void ListAppointments()
+    {
+        Console.WriteLine("-- List all appointments --");
+        var appointmentList = AppointmentService.GetAppointments();
+
+        if (appointmentList.Count == 0)
+        {
+            Console.WriteLine("No appointments found.");
+            return;
+        }
+
+        foreach (var appointment in appointmentList)
+        {
+            appointment.ShowInfo();
         }
     }
 
@@ -301,60 +323,65 @@ public static class Menu
         }
     }
 
-//     static void AttendPet()
-//     {
-//         Console.WriteLine("-- Attend Pet --");
-//
-//         Console.Write("Enter pet name: ");
-//         var petNameInput = Console.ReadLine();
-//
-//         var petsForAttend = Storage.GetAllPets();
-//         var petToAttend = petsForAttend
-//             .FirstOrDefault(p =>
-//                 string.Equals(p.GetName(), petNameInput, StringComparison.OrdinalIgnoreCase));
-//
-//         if (petToAttend == null)
-//         {
-//             Console.WriteLine("Pet not found.");
-//             return;
-//         }
-//
-//         Console.WriteLine($"""
-//                            Pet found:
-//                            Name: {petToAttend.GetName()}
-//                            Age: {petToAttend.GetAge()}
-//                            Species: {petToAttend.GetSpecies()}
-//                            Breed: {petToAttend.GetBreed()}
-//                            """);
-//
-//         Console.WriteLine("Choose service:");
-//         Console.WriteLine("1. General Consult");
-//         Console.WriteLine("2. Vaccination");
-//         Console.Write("Option: ");
-//         var chosenService = Console.ReadLine();
-//
-//         VetService? vetService = null;
-//
-//         if (chosenService == "1")
-//         {
-//             vetService = new GeneralConsult(petToAttend);
-//         }
-//         else if (chosenService == "2")
-//         {
-//             Console.Write("Enter vaccine name: ");
-//             var vaccineInput = Console.ReadLine();
-//             vetService = new Vaccination(petToAttend, vaccineInput ?? string.Empty);
-//         }
-//         else
-//         {
-//             Console.WriteLine("Invalid option.");
-//             return;
-//         }
-//
-//         vetService.Attend();
-//     }
-//
-//
+    static void RegisterAppointment()
+    {
+        Console.WriteLine("-- Register new appointment --");
+
+        string subject;
+        while (true)
+        {
+            Console.Write("Enter appointment subject: ");
+            subject = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(subject)) break;
+            Console.WriteLine("Subject cannot be empty. Please try again.");
+        }
+
+        string veterinaryName;
+        while (true)
+        {
+            Console.Write("Enter veterinary name: ");
+            veterinaryName = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(veterinaryName)) break;
+            Console.WriteLine("Veterinary name cannot be empty. Please try again.");
+        }
+
+        string petName;
+        while (true)
+        {
+            Console.Write("Enter pet name: ");
+            petName = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(petName)) break;
+            Console.WriteLine("Pet name cannot be empty. Please try again.");
+        }
+
+        string symptoms;
+        while (true)
+        {
+            Console.Write("Enter symptoms: ");
+            symptoms = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(symptoms)) break;
+            Console.WriteLine("Symptoms cannot be empty. Please try again.");
+        }
+
+        string date;
+        while (true)
+        {
+            Console.Write("Enter appointment date with format yyyy-MM-dd HH:mm (2025-10-10 14:00): ");
+            date = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(date)) break;
+            Console.WriteLine("Date cannot be empty. Please try again.");
+        }
+
+        try
+        {
+            AppointmentService.CreateAppointment(subject, veterinaryName, petName, symptoms, date);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
     static void DeleteOwner()
     {
         Console.WriteLine("-- Delete owner --");
@@ -428,5 +455,30 @@ public static class Menu
         }
 
         VeterinaryService.RemoveVeterinary(veterinaryMatch.Id.ToString());
+    }
+
+    static void DeleteAppointment()
+    {
+        Console.WriteLine("-- Delete Appointment --");
+
+        string appointmentSubjectToDelete;
+        while (true)
+        {
+            Console.Write("Enter the appointment subject to delete: ");
+            appointmentSubjectToDelete = Console.ReadLine() ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(appointmentSubjectToDelete))
+                break;
+            Console.WriteLine("Appointment Subject cannot be empty. Please try again.");
+        }
+
+        var appointmentMatch = AppointmentService.GetAppointmentByName(appointmentSubjectToDelete);
+
+        if (appointmentMatch == null)
+        {
+            Console.WriteLine($"Appointment not found.");
+            return;
+        }
+
+        AppointmentService.RemoveAppointment(appointmentMatch.Id.ToString());
     }
 }

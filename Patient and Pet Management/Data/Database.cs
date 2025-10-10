@@ -7,4 +7,5 @@ public static class Database
     public static List<Veterinary> Veterinaries = [];
     public static List<Owner> Owners = [];
     public static List<Pet> Pets = [];
+    public static List<Appointment> Appoitments = [];
 }
